@@ -11,7 +11,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 # Copy csproj and restore
-COPY ["ChatGPTIntegration.csproj", "."]
+COPY ["ChatGPTIntegration/backend/ChatGPTIntegration.csproj", "."]
 RUN dotnet restore "./ChatGPTIntegration.csproj"
 
 # Copy all source and build
