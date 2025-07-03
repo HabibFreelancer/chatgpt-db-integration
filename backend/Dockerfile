@@ -6,13 +6,15 @@ USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
+# Expose the port Render will use
+EXPOSE 10000
 
 
 # Cette phase est utilisée pour générer le projet de service
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["ChatGPTIntegration.csproj", "."]
+COPY ["backend/ChatGPTIntegration.csproj", "."]
 RUN dotnet restore "./ChatGPTIntegration.csproj"
 COPY . .
 WORKDIR "/src/."
