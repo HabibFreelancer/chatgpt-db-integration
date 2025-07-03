@@ -24,7 +24,7 @@ ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./ChatGPTIntegration.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Final runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:9.0-nanoserver-1809 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "ChatGPTIntegration.dll"]
