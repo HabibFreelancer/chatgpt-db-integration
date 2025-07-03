@@ -27,12 +27,12 @@ namespace ChatGPTIntegration.Data
             );
 
             modelBuilder.Entity<Order>().HasData(
-                new Order { OrderId = 1, CustomerId = 1, ProductId = 1, Quantity = 1, OrderDate = new DateTime(2024, 7, 2) },
-                new Order { OrderId = 2, CustomerId = 2, ProductId = 2, Quantity = 2, OrderDate = new DateTime(2024, 7, 2) }
+                new Order { OrderId = 1, CustomerId = 1, ProductId = 1, Quantity = 1, OrderDate = new DateTime(2024, 7, 2, 0, 0, 0, DateTimeKind.Utc) },
+                new Order { OrderId = 2, CustomerId = 2, ProductId = 2, Quantity = 2, OrderDate = new DateTime(2024, 7, 2, 0, 0, 0, DateTimeKind.Utc) }
             );
 
             modelBuilder.Entity<Setting>().HasData(
-                new Setting { SettingId = 1, Key = "OpenAI_API_Key", Value = "YOUR_KEY_HERE" }
+                new Setting { SettingId = 1, Key = "OpenAI_API_Key", Value = "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\r\n" }
             );
         }
     }
