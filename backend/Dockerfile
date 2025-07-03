@@ -1,34 +1,25 @@
-# Consultez https://aka.ms/customizecontainer pour savoir comment personnaliser votre conteneur de débogage et comment Visual Studio utilise ce Dockerfile pour générer vos images afin d’accélérer le débogage.
+# Use official .NET SDK image for build stage
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
 
-# En fonction du système d’exploitation du ou des ordinateurs hôtes qui génèrent ou exécutent les conteneurs, vous devrez peut-être modifier l’image spécifiée dans l’instruction FROM.
-# Pour obtenir plus d’informations, veuillez consulter https://aka.ms/containercompat
+# Copy project files and restore dependencies
+COPY *.csproj ./
+RUN dotnet restore
 
-# Cet index est utilisé lors de l’exécution à partir de VS en mode rapide (par défaut pour la configuration de débogage)
-FROM mcr.microsoft.com/dotnet/aspnet:9.0-nanoserver-1809 AS base
+# Copy remaining files and publish
+COPY . ./
+RUN dotnet publish -c Release -o /app/publish
+
+# Runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+COPY --from=build /app/publish .
+
+# Set environment variable for Render
+ENV ASPNETCORE_URLS=http://+:${PORT}
+
 # Expose the port Render will use
 EXPOSE 10000
 
-
-# Cette phase est utilisée pour générer le projet de service
-FROM mcr.microsoft.com/dotnet/sdk:9.0-nanoserver-1809 AS build
-ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["ChatGPTIntegration.csproj", "."]
-RUN dotnet restore "./ChatGPTIntegration.csproj"
-COPY . .
-WORKDIR "/src/."
-RUN dotnet build "./ChatGPTIntegration.csproj" -c %BUILD_CONFIGURATION% -o /app/build
-
-# Cette étape permet de publier le projet de service à copier dans la phase finale
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./ChatGPTIntegration.csproj" -c %BUILD_CONFIGURATION% -o /app/publish /p:UseAppHost=false
-
-# Cette phase est utilisée en production ou lors de l’exécution à partir de VS en mode normal (par défaut quand la configuration de débogage n’est pas utilisée)
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
+# Use the PORT env variable or fallback
 ENTRYPOINT ["dotnet", "ChatGPTIntegration.dll"]
