@@ -1,25 +1,30 @@
-# Use official .NET SDK image for build stage
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /src
-
-# Copy project files and restore dependencies
-COPY *.csproj ./
-RUN dotnet restore
-
-# Copy remaining files and publish
-COPY . ./
-RUN dotnet publish -c Release -o /app/publish
-
-# Runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+# Use official .NET runtime for production
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-COPY --from=build /app/publish .
-
-# Set environment variable for Render
-ENV ASPNETCORE_URLS=http://+:${PORT}
-
-# Expose the port Render will use
+EXPOSE 8080
+EXPOSE 8081
 EXPOSE 10000
 
-# Use the PORT env variable or fallback
+# Build stage
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+
+# Copy csproj and restore
+COPY ["ChatGPTIntegration.csproj", "."]
+RUN dotnet restore "./ChatGPTIntegration.csproj"
+
+# Copy all source and build
+COPY . .
+RUN dotnet build "./ChatGPTIntegration.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# Publish stage
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./ChatGPTIntegration.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+# Final runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "ChatGPTIntegration.dll"]
