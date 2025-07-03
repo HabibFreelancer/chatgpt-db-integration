@@ -1,0 +1,106 @@
+/* Center page wrapper with some padding */
+.admin-page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3rem 1rem;
+  background: #f3f4f6; /* light gray background */
+}
+
+/* Main card container */
+.admin-container {
+  background: white;
+  border-radius: 12px;
+  max-width: 900px;
+  width: 100%;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  overflow: hidden;
+}
+
+/* Header with strong branding */
+.admin-header {
+  background-color: #2563eb; /* blue-600 */
+  color: white;
+  padding: 1.25rem 2rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.6);
+}
+
+/* Sections style */
+.admin-section {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #e5e7eb; /* gray-200 */
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+/* Remove border from last section */
+.admin-section:last-child {
+  border-bottom: none;
+}
+
+/* Section headings */
+.admin-section h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #111827; /* gray-900 */
+  border-bottom: 2px solid #2563eb; /* blue-600 */
+  padding-bottom: 0.25rem;
+}
+
+/* Paragraph text */
+.admin-section p {
+  color: #4b5563; /* gray-600 */
+  font-size: 1.1rem;
+}
+
+/* Table container scroll */
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #d1d5db; /* gray-300 */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.05);
+}
+
+/* Customer table */
+.customers-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 650px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.customers-table th,
+.customers-table td {
+  padding: 14px 20px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.customers-table th {
+  background-color: #eff6ff; /* blue-100 */
+  color: #1e40af; /* blue-800 */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.customers-table tbody tr:hover {
+  background-color: #dbeafe; /* blue-200 */
+  cursor: default;
+}
+
+/* Error message style */
+.error-message {
+  color: #dc2626; /* red-600 */
+  font-weight: 700;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
