@@ -35,6 +35,15 @@ namespace ChatGPTIntegration.Services
                 new { role = "system", content = "You are a helpful assistant." },
                 new { role = "user", content = prompt }
             }
+            ,
+                functions = new[]
+                  {
+            new {
+                name = "getCustomers",
+                description = "Get the list of customers",
+                   parameters = new { type = "object", properties = new { } }
+                }
+          }
             };
 
             request.Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
