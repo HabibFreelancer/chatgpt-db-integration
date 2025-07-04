@@ -63,6 +63,7 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<AppDbContext>();
+        Console.WriteLine(context.Database.GetConnectionString());
         context.Database.Migrate();
     }
     catch (Exception ex)

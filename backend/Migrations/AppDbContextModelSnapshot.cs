@@ -165,7 +165,7 @@ namespace ChatGPTIntegration.Migrations
                         {
                             SettingId = 1,
                             Key = "OpenAI_API_Key",
-                            Value = "YOUR_KEY_HERE"
+                            Value = "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\r\n"
                         });
                 });
 #pragma warning restore 612, 618

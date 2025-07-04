@@ -103,7 +103,7 @@ namespace ChatGPTIntegration.Migrations
             migrationBuilder.InsertData(
                 table: "Settings",
                 columns: new[] { "SettingId", "Key", "Value" },
-                values: new object[] { 1, "OpenAI_API_Key", "YOUR_KEY_HERE" });
+                values: new object[] { 1, "OpenAI_API_Key", "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\r\n" });
         }
 
         /// <inheritdoc />
